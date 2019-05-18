@@ -1,0 +1,6 @@
+gameinfo
+{
+
+  AddEventHandlers = "pc_EventHandler"
+
+} // gameinfo
