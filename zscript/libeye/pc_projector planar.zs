@@ -6,7 +6,7 @@
 	
 	*/
 
-class Le_SwScreen : Le_ProjScreen {
+class pc_Le_SwScreen : pc_Le_ProjScreen {
 	
 	// kd: Less info necessary than for open-gl, but it's there.
 	protected vector2				right_planar_unit;

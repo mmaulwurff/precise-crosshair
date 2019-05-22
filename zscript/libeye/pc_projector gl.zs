@@ -6,7 +6,7 @@
 	
 	*/
 
-class Le_GlScreen : Le_ProjScreen {
+class pc_Le_GlScreen : pc_Le_ProjScreen {
 	
 	protected vector3				forw_unit;
 	protected vector3				right_unit;

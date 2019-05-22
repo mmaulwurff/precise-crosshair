@@ -45,8 +45,8 @@ class pc_EventHandler : EventHandler
   private
   void initialize()
   {
-    _glProjection  = new("Le_GlScreen");
-    _swProjection  = new("Le_SwScreen");
+    _glProjection  = new("pc_Le_GlScreen");
+    _swProjection  = new("pc_Le_SwScreen");
     _cvarRenderer  = Cvar.GetCvar("vid_rendermode", players[consolePlayer]);
 
     _isInitialized = true;
@@ -158,7 +158,7 @@ class pc_EventHandler : EventHandler
 
     _projection.ProjectWorldPos(_targetPos);
 
-    Le_Viewport viewport;
+    pc_Le_Viewport viewport;
     viewport.FromHud();
 
     //Vector2 screenPos = _projection.ProjectToScreen();
@@ -256,19 +256,19 @@ class pc_EventHandler : EventHandler
 
   // private: //////////////////////////////////////////////////////////////////
 
-  private Vector3        _targetPos;
+  private Vector3          _targetPos;
 
-  private ui int         _crosshairNum;
-  private ui bool        _isCrossExisting;
-  private ui TextureID   _crosshairTexture;
+  private ui int           _crosshairNum;
+  private ui bool          _isCrossExisting;
+  private ui TextureID     _crosshairTexture;
 
-  private transient bool _isInitialized;
-  private transient bool _isPrepared;
-  private transient Cvar _cvarRenderer;
+  private transient bool   _isInitialized;
+  private transient bool   _isPrepared;
+  private transient Cvar   _cvarRenderer;
 
-  private Le_ProjScreen  _projection;
-  private Le_GlScreen    _glProjection;
-  private Le_SwScreen    _swProjection;
+  private pc_Le_ProjScreen _projection;
+  private pc_Le_GlScreen   _glProjection;
+  private pc_Le_SwScreen   _swProjection;
 
   // private: //////////////////////////////////////////////////////////////////
 

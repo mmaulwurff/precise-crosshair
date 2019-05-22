@@ -5,7 +5,7 @@
 	
 	*/
 
-class Le_ProjScreen {
+class pc_Le_ProjScreen {
 	
 	// kd: Screen info
 	protected vector2				resolution;
