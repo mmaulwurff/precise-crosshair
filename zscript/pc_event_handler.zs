@@ -158,14 +158,18 @@ class pc_EventHandler : EventHandler
 
     _projection.ProjectWorldPos(_targetPos);
 
-    Vector2 screenPos = _projection.ProjectToScreen();
+    Le_Viewport viewport;
+    viewport.FromHud();
+
+    //Vector2 screenPos = _projection.ProjectToScreen();
+    Vector2 drawPos = viewport.SceneToWindow(_projection.ProjectToNormal());
 
     if(!_projection.IsInFront()) { return; } // should never happen for crosshair, though.
 
     Screen.DrawTexture( _crosshairTexture
                       , false
                       , screenWidth / 2
-                      , screenPos.y
+                      , drawPos.y
                       , DTA_DestWidth    , width
                       , DTA_DestHeight   , height
                       , DTA_AlphaChannel , true

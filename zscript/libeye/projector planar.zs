@@ -37,8 +37,6 @@ class Le_SwScreen : Le_ProjScreen {
 		forw_planar_in		= forw_planar_unit;
 	}
 	
-	protected vector3				diff;
-	
 	override void ProjectWorldPos (vector3 world_pos) {
 		
 		// kd: Your view is flat. If you pitch up or down, imagine that all the
@@ -60,6 +58,16 @@ class Le_SwScreen : Le_ProjScreen {
 		let normal_pos = proj_pos / depth + (1, 1);
 		
 		return 0.5 * (
+			normal_pos.x * resolution.x,
+			normal_pos.y * resolution.y);
+	}
+	
+	override vector2 ProjectToCustom (
+	vector2	origin,
+	vector2	resolution) const {
+		let normal_pos = proj_pos / depth + (1, 1);
+		
+		return origin + 0.5 * (
 			normal_pos.x * resolution.x,
 			normal_pos.y * resolution.y);
 	}

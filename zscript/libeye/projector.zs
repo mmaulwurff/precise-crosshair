@@ -9,6 +9,7 @@ class Le_ProjScreen {
 	
 	// kd: Screen info
 	protected vector2				resolution;
+	protected vector2				origin;
 	protected vector2				tan_fov_2;
 	protected double				pixel_stretch;
 	protected double				aspect_ratio;
@@ -76,11 +77,18 @@ class Le_ProjScreen {
 	// your screen).
 	protected double				depth;
 	protected vector2				proj_pos;
+	protected vector3				diff;
 	
 	virtual void	BeginProjection	() {}
 	virtual void	ProjectWorldPos	(vector3 world_pos) {}
-	virtual vector2	ProjectToScreen	() const { return (0, 0); }
 	virtual vector2	ProjectToNormal	() const { return (0, 0); }
+	virtual vector2	ProjectToScreen	() const { return (0, 0); }
+	
+	virtual vector2 ProjectToCustom (
+	vector2 origin,
+	vector2 resolution) const {
+		return (0, 0);
+	}
 	
 	bool IsInFront () const {
 		return 0 < depth;
@@ -105,6 +113,14 @@ class Le_ProjScreen {
 	}
 	
 	virtual vector3	DeprojectScreenToDiff	(
+	vector2	screen_pos,
+	double	depth = 1) const {
+		return (0, 0, 0);
+	}
+	
+	virtual vector3 DeprojectCustomToDiff (
+	vector2	origin,
+	vector2	resolution,
 	vector2	screen_pos,
 	double	depth = 1) const {
 		return (0, 0, 0);
@@ -144,5 +160,15 @@ class Le_ProjScreen {
 			screen_pos.x / resolution.x,
 			screen_pos.y / resolution.y);
 		return 2 * screen_pos - (1, 1);
+	}
+	
+	// kd: Other interesting stuff.
+	
+	vector3 Difference () const {
+		return diff;
+	}
+	
+	double Distance () const {
+		return diff.length();
 	}
 }
