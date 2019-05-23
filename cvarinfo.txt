@@ -1,0 +1,3 @@
+// Precise Crosshair variables
+
+server bool pc_enable = true;

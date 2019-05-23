@@ -98,6 +98,7 @@ class pc_EventHandler : EventHandler
        || gamestate == GS_TITLELEVEL
        || player.mo.health <= 0
        || automapactive
+       || !pc_enable
        )
     {
       return;

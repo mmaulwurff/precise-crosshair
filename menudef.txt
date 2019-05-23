@@ -1,0 +1,19 @@
+// Entry point /////////////////////////////////////////////////////////////////
+
+AddOptionMenu OptionsMenu
+{
+  StaticText ""
+  SubMenu    "Precise Crosshair", pc_Menu
+}
+
+// Menus ///////////////////////////////////////////////////////////////////////
+
+OptionMenu pc_Menu
+{
+
+  Title      "Precise Crosshair Options"
+
+  StaticText ""
+  Option     "Enable", pc_enable, YesNo
+
+} // OptionMenu pc_Menu
