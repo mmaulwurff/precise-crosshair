@@ -7,6 +7,9 @@ server bool pc_enable = true;
 user bool pc_flip_y = false;
 user bool pc_flip_x = false;
 
+user bool pc_disable_slot_1    = false;
+user bool pc_disable_not_ready = false;
+
 // Precise External Interface //////////////////////////////////////////////////
 
 user float pc_y;

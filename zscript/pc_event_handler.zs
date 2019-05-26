@@ -106,6 +106,8 @@ class pc_EventHandler : EventHandler
        || player.mo.health <= 0
        || automapactive
        || !pc_enable
+       || disabledOnSlot1(player)
+       || disableWhenNotReady(player)
        )
     {
       return;
@@ -278,6 +280,43 @@ class pc_EventHandler : EventHandler
     class<PlayerPawn> type = player.mo.GetClassName();
     let default = GetDefaultByType(type);
     return default.health;
+  }
+
+  private play
+  bool disabledOnSlot1(PlayerInfo player) const
+  {
+    return _settings.isDisabledOnSlot1() && isSlot1(player);
+  }
+
+  private play
+  bool disableWhenNotReady(PlayerInfo player) const
+  {
+    return _settings.isDisabledOnNotReady() && !isWeaponReady(player);
+  }
+
+  private static
+  bool isSlot1(PlayerInfo player)
+  {
+    Weapon w = player.readyWeapon;
+    if (w == null) { return false; }
+
+    int located;
+    int slot;
+    [located, slot] = player.weapons.LocateWeapon(w.GetClassName());
+
+    bool slot1 = (slot == 1);
+    return slot1;
+  }
+
+  private static
+  bool isWeaponReady(PlayerInfo player)
+  {
+    if (!player) { return false; }
+
+    bool isReady = (player.WeaponState & WF_WEAPONREADY)
+      || (player.WeaponState & WF_WEAPONREADYALT);
+
+    return isReady;
   }
 
   // private: //////////////////////////////////////////////////////////////////

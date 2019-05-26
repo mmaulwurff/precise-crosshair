@@ -30,6 +30,9 @@ class pc_Settings : pc_SettingsPack
   bool isFlipX() { checkInit(); return _flipX.value(); }
   bool isFlipY() { checkInit(); return _flipY.value(); }
 
+  bool isDisabledOnSlot1()    { checkInit(); return _disableOnSlot1.value();    }
+  bool isDisabledOnNotReady() { checkInit(); return _disableOnNotReady.value(); }
+
   // private: //////////////////////////////////////////////////////////////////
 
   private
@@ -37,8 +40,11 @@ class pc_Settings : pc_SettingsPack
   {
     if (!_isInitialized)
     {
-      push(_flipX = new("pc_BoolSetting").init("pc_flip_x", _player));
-      push(_flipY = new("pc_BoolSetting").init("pc_flip_y", _player));
+      push(_flipX             = new("pc_BoolSetting").init("pc_flip_x"            , _player));
+      push(_flipY             = new("pc_BoolSetting").init("pc_flip_y"            , _player));
+      push(_disableOnSlot1    = new("pc_BoolSetting").init("pc_disable_slot_1"    , _player));
+      push(_disableOnNotReady = new("pc_BoolSetting").init("pc_disable_not_ready" , _player));
+
       _isInitialized = true;
     }
   }
@@ -47,6 +53,8 @@ class pc_Settings : pc_SettingsPack
 
   private pc_BoolSetting _flipX;
   private pc_BoolSetting _flipY;
+  private pc_BoolSetting _disableOnSlot1;
+  private pc_BoolSetting _disableOnNotReady;
 
   private PlayerInfo     _player;
   private transient bool _isInitialized;

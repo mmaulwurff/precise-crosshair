@@ -17,7 +17,11 @@ OptionMenu pc_Menu
   Option     "Enable", pc_enable, YesNo
 
   StaticText ""
-  Option     "Mirror horizontally" , pc_flip_x, YesNo
-  Option     "Mirror vertically"   , pc_flip_y, YesNo
+  Option     "Mirror horizontally" , pc_flip_x , YesNo
+  Option     "Mirror vertically"   , pc_flip_y , YesNo
+
+  StaticText ""
+  Option     "Disable on slot 1"                , pc_disable_slot_1    , YesNo
+  Option     "Disable when weapon is not ready" , pc_disable_not_ready , YesNo
 
 } // OptionMenu pc_Menu
