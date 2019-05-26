@@ -45,9 +45,12 @@ class pc_EventHandler : EventHandler
   private
   void initialize()
   {
+    PlayerInfo player = players[consolePlayer];
+
     _glProjection  = new("pc_Le_GlScreen");
     _swProjection  = new("pc_Le_SwScreen");
-    _cvarRenderer  = Cvar.GetCvar("vid_rendermode", players[consolePlayer]);
+    _cvarRenderer  = Cvar.GetCvar("vid_rendermode", player);
+    _settings      = new("pc_Settings").init(player);
 
     _isInitialized = true;
   }
@@ -167,6 +170,8 @@ class pc_EventHandler : EventHandler
                       , DTA_AlphaChannel , true
                       , DTA_KeepRatio    , true
                       , DTA_FillColor    , crossColor & 0xFFFFFF
+                      , DTA_FlipX        , _settings.isFlipX()
+                      , DTA_FlipY        , _settings.isFlipY()
                       );
   }
 
@@ -291,6 +296,8 @@ class pc_EventHandler : EventHandler
   private pc_Le_ProjScreen _projection;
   private pc_Le_GlScreen   _glProjection;
   private pc_Le_SwScreen   _swProjection;
+
+  private pc_Settings      _settings;
 
   // private: //////////////////////////////////////////////////////////////////
 

@@ -2,6 +2,11 @@
 
 server bool pc_enable = true;
 
+// Precise Crosshair options ///////////////////////////////////////////////////
+
+user bool pc_flip_y = false;
+user bool pc_flip_x = false;
+
 // Precise External Interface //////////////////////////////////////////////////
 
 user float pc_y;
