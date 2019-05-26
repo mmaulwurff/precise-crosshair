@@ -1,3 +1,7 @@
-// Precise Crosshair variables
+// Precise Crosshair variables /////////////////////////////////////////////////
 
 server bool pc_enable = true;
+
+// Precise External Interface //////////////////////////////////////////////////
+
+user float pc_y;

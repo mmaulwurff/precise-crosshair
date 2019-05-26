@@ -94,6 +94,10 @@ class pc_EventHandler : EventHandler
   private ui
   void drawCrosshair(PlayerInfo player, RenderEvent event)
   {
+    Vector2 drawPos = makeDrawPos(player, event);
+
+    setExternalY(player, drawPos.y);
+
     if (  !_isCrossExisting
        || gamestate == GS_TITLELEVEL
        || player.mo.health <= 0
@@ -152,19 +156,6 @@ class pc_EventHandler : EventHandler
       crossColor = crosshaircolor;
     }
 
-    _projection.CacheResolution();
-    _projection.CacheFov(player.fov);
-    _projection.OrientForRenderOverlay(event);
-    _projection.BeginProjection();
-
-    _projection.ProjectWorldPos(_targetPos);
-
-    pc_Le_Viewport viewport;
-    viewport.FromHud();
-
-    //Vector2 screenPos = _projection.ProjectToScreen();
-    Vector2 drawPos = viewport.SceneToWindow(_projection.ProjectToNormal());
-
     if(!_projection.IsInFront()) { return; } // should never happen for crosshair, though.
 
     Screen.DrawTexture( _crosshairTexture
@@ -177,6 +168,24 @@ class pc_EventHandler : EventHandler
                       , DTA_KeepRatio    , true
                       , DTA_FillColor    , crossColor & 0xFFFFFF
                       );
+  }
+
+  private ui
+  Vector2 makeDrawPos(PlayerInfo player, RenderEvent event)
+  {
+    _projection.CacheResolution();
+    _projection.CacheFov(player.fov);
+    _projection.OrientForRenderOverlay(event);
+    _projection.BeginProjection();
+
+    _projection.ProjectWorldPos(_targetPos);
+
+    pc_Le_Viewport viewport;
+    viewport.FromHud();
+
+    Vector2 drawPos = viewport.SceneToWindow(_projection.ProjectToNormal());
+
+    return drawPos;
   }
 
   private ui
@@ -239,6 +248,19 @@ class pc_EventHandler : EventHandler
                                  );
   }
 
+  private play
+  void setExternalY(PlayerInfo player, double y) const
+  {
+    if (_externalY == null)
+    {
+      _externalY = Cvar.GetCVar("pc_y", player);
+    }
+
+    _externalY.SetFloat(y);
+
+    console.printf("%f", _externalY.GetFloat());
+  }
+
   // private: //////////////////////////////////////////////////////////////////
 
   private ui static
@@ -266,6 +288,7 @@ class pc_EventHandler : EventHandler
   private transient bool   _isInitialized;
   private transient bool   _isPrepared;
   private transient Cvar   _cvarRenderer;
+  private transient Cvar   _externalY;
 
   private pc_Le_ProjScreen _projection;
   private pc_Le_GlScreen   _glProjection;
