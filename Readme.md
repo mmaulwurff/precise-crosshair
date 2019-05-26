@@ -15,6 +15,7 @@ actually shoot instead of the center of the screen.
 # Thanks
 
 * GZDoom development team and Graf Zahl personally for making and maintaining
-  GZDoom.
-* KeksDose for LibEye: https://forum.zdoom.org/viewtopic.php?f=105&t=64566#p1102157
-* Frax Boomer for an idea.
+  GZDoom;
+* KeksDose for LibEye: https://forum.zdoom.org/viewtopic.php?f=105&t=64566#p1102157 ;
+* Frax Boomer for an idea;
+* Someone64 for feature suggestions.
