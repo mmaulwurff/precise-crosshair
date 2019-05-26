@@ -257,8 +257,6 @@ class pc_EventHandler : EventHandler
     }
 
     _externalY.SetFloat(y);
-
-    console.printf("%f", _externalY.GetFloat());
   }
 
   // private: //////////////////////////////////////////////////////////////////
