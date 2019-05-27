@@ -36,11 +36,8 @@ class pc_SettingsPack : pc_SettingsBase
 
   // protected: ////////////////////////////////////////////////////////////////
 
-  protected
-  void push(pc_SettingsBase setting)
-  {
-    _settings.push(setting);
-  }
+  protected void push(pc_SettingsBase setting) { _settings.push(setting); }
+  protected void clear()                       { _settings.clear();       }
 
   // private: //////////////////////////////////////////////////////////////////
 

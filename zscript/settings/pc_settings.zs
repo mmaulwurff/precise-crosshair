@@ -40,6 +40,8 @@ class pc_Settings : pc_SettingsPack
   {
     if (!_isInitialized)
     {
+      clear();
+
       push(_flipX             = new("pc_BoolSetting").init("pc_flip_x"            , _player));
       push(_flipY             = new("pc_BoolSetting").init("pc_flip_y"            , _player));
       push(_disableOnSlot1    = new("pc_BoolSetting").init("pc_disable_slot_1"    , _player));
