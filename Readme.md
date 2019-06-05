@@ -12,6 +12,11 @@ actually shoot instead of the center of the screen.
 
 *Except "Enable Crosshair". This option will disable only the standard crosshair.
 
+# Links
+
+* [Git repository](https://github.com/mmaulwurff/precise-crosshair)
+* [Forum post](https://forum.zdoom.org/viewtopic.php?f=43&t=64788#p1104858)
+
 # Thanks
 
 * GZDoom development team and Graf Zahl personally for making and maintaining
