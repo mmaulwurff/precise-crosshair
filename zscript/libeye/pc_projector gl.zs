@@ -7,7 +7,6 @@
 	*/
 
 class pc_Le_GlScreen : pc_Le_ProjScreen {
-	
 	protected vector3				forw_unit;
 	protected vector3				right_unit;
 	protected vector3				down_unit;
@@ -31,22 +30,22 @@ class pc_Le_GlScreen : pc_Le_ProjScreen {
 		let sinrang	= sin(world_ang.z);
 		
 		let right_no_roll	= (
-		-	sinang,
-			cosang,
+			sinang,
+		-	cosang,
 			0);
 		
 		let down_no_roll	= (
-			sinvang * cosang,
-			sinvang * sinang,
+		-	sinvang * cosang,
+		-	sinvang * sinang,
 		-	cosvang);
 		
 		forw_unit = (
 			cosvang * cosang,
 			cosvang * sinang,
-			sinvang);
+		-	sinvang);
 		
-		down_unit	= cosrang * down_no_roll	+ sinrang * right_no_roll;
-		right_unit	= sinrang * down_no_roll	- cosrang * right_no_roll;
+		down_unit	= cosrang * down_no_roll	- sinrang * right_no_roll;
+		right_unit	= cosrang * right_no_roll	+ sinrang * down_no_roll;
 	}
 	
 	// kd: Projection handling. These get called to make stuff a little faster,

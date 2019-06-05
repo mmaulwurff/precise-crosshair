@@ -22,7 +22,7 @@ class pc_Le_SwScreen : pc_Le_ProjScreen {
 		forw_planar_unit = (
 		-	right_planar_unit.y,
 			right_planar_unit.x,
-		-	tan(view_ang.y));
+			tan(view_ang.y));
 	}
 	
 	// kd: Projection:
