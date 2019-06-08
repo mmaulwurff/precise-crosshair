@@ -16,7 +16,9 @@ Required GZDoom version: 4.1.3 or higher.
 * Shows where you shoot;
 * Respects autoaim;
 * Supports custom crosshairs;
-* Respects GZDoom crosshair options*.
+* Respects GZDoom crosshair options*;
+* Options to mirror crosshairs;
+* Options to disable crosshair on slot 1 and when weapon is not ready.
 
 *Except "Enable Crosshair". This option will disable only the standard crosshair.
 
