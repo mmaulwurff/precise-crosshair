@@ -3,6 +3,12 @@
 An addon (minimod) for GZDoom that makes a crosshair point to where you
 actually shoot instead of the center of the screen.
 
+# How to use
+
+**1. HUD Options -> Crosshair must be OFF.**
+
+**2. HUD Options -> Default crosshair must be not "None".**
+
 # Features
 
 * Shows where you shoot;
