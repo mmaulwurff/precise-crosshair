@@ -5,6 +5,8 @@ actually shoot instead of the center of the screen.
 
 # How to use
 
+Required GZDoom version: 4.1.3 or higher.
+
 **1. HUD Options -> Crosshair must be OFF.**
 
 **2. HUD Options -> Default crosshair must be not "None".**
