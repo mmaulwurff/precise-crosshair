@@ -11,8 +11,23 @@ AddOptionMenu OptionsMenu
 OptionMenu pc_Menu
 {
 
-  Title      "Precise Crosshair Options"
+  Title      "Precise Crosshair"
 
+  StaticText "GZDoom Crosshair Options", 1
+  StaticText ""
+  StaticText "This must be OFF:"
+  Option     "$HUDMNU_CROSSHAIRON" , crosshairon, OnOff
+
+  StaticText ""
+  StaticText "This must be not None:"
+  Option     "$HUDMNU_CROSSHAIR"   , crosshair, Crosshairs
+
+  StaticText ""
+  StaticText "Other crosshair options apply to Precise Crosshair too:"
+  Submenu    "$OPTMNU_HUD", HUDOptions
+
+  StaticText ""
+  StaticText "GZDoom Crosshair Options", 1
   StaticText ""
   Option     "Enable", pc_enable, YesNo
 
