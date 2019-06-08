@@ -33,4 +33,5 @@ Required GZDoom version: 4.1.3 or higher.
   GZDoom;
 * KeksDose for LibEye: https://forum.zdoom.org/viewtopic.php?f=105&t=64566#p1102157 ;
 * Frax Boomer for an idea;
-* Someone64 for feature suggestions.
+* Someone64 for feature suggestions;
+* Agitatio for bug reporting.
