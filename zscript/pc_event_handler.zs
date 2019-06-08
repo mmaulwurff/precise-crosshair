@@ -314,7 +314,8 @@ class pc_EventHandler : EventHandler
     if (!player) { return false; }
 
     bool isReady = (player.WeaponState & WF_WEAPONREADY)
-      || (player.WeaponState & WF_WEAPONREADYALT);
+      || (player.WeaponState & WF_WEAPONREADYALT)
+      || player.attackdown;
 
     return isReady;
   }
