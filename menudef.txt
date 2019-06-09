@@ -27,7 +27,7 @@ OptionMenu pc_Menu
   Submenu    "$OPTMNU_HUD", HUDOptions
 
   StaticText ""
-  StaticText "GZDoom Crosshair Options", 1
+  StaticText "Precise Crosshair Options", 1
   StaticText ""
   Option     "Enable", pc_enable, YesNo
 
