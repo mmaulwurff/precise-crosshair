@@ -4,8 +4,8 @@
 #IWAD=~/Programs/Games/wads/doom/HERETIC.WAD
 #IWAD=~/Programs/Games/wads/modules/game/harm1.wad
 
-gzdoom=~/Documents/src/build-gzdoom-GCC-Release/gzdoom
-#gzdoom=gzdoom
+#gzdoom=~/Documents/src/build-gzdoom-GCC-Release/gzdoom
+gzdoom=gzdoom
 
 name=precise-crosshair
 version=$(git describe --abbrev=0 --tags)
@@ -17,6 +17,7 @@ zip $name.pk3 \
     *.md  \
     *.zs  \
     *.txt \
+    graphics/*.png \
     zscript/*.zs   \
     zscript/*/*.zs \
 && \
