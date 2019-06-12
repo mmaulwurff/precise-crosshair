@@ -35,6 +35,8 @@ class pc_EventHandler : EventHandler
 
     PlayerInfo player = players[consolePlayer];
 
+    if (player == NULL) { return; }
+
     loadTarget(event.viewAngle, event.viewPitch);
     loadCrosshair(player);
     drawCrosshair(player, event);
@@ -108,6 +110,7 @@ class pc_EventHandler : EventHandler
        || !pc_enable
        || disabledOnSlot1(player)
        || disableWhenNotReady(player)
+       || disableOnNoWeapon(player)
        )
     {
       return;
@@ -258,7 +261,7 @@ class pc_EventHandler : EventHandler
   private play
   void setExternalY(PlayerInfo player, double y) const
   {
-    if (_externalY == null)
+    if (_externalY == NULL)
     {
       _externalY = Cvar.GetCVar("pc_y", player);
     }
@@ -294,11 +297,17 @@ class pc_EventHandler : EventHandler
     return _settings.isDisabledOnNotReady() && !isWeaponReady(player);
   }
 
+  private play
+  bool disableOnNoWeapon(PlayerInfo player) const
+  {
+    return _settings.isDisabledOnNoWeapon() && isNoWeapon(player);
+  }
+
   private static
   bool isSlot1(PlayerInfo player)
   {
     Weapon w = player.readyWeapon;
-    if (w == null) { return false; }
+    if (w == NULL) { return false; }
 
     int located;
     int slot;
@@ -311,13 +320,20 @@ class pc_EventHandler : EventHandler
   private static
   bool isWeaponReady(PlayerInfo player)
   {
-    if (!player) { return false; }
-
     bool isReady = (player.WeaponState & WF_WEAPONREADY)
       || (player.WeaponState & WF_WEAPONREADYALT)
       || player.attackdown;
 
     return isReady;
+  }
+
+  private static
+  bool isNoWeapon(PlayerInfo player)
+  {
+    Weapon w    = player.readyWeapon;
+    bool   isNo = (w == NULL) || (w.GetClassName() == "m8f_wm_Holstered");
+
+    return isNo;
   }
 
   // private: //////////////////////////////////////////////////////////////////

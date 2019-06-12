@@ -38,5 +38,6 @@ OptionMenu pc_Menu
   StaticText ""
   Option     "Disable on slot 1"                , pc_disable_slot_1    , YesNo
   Option     "Disable when weapon is not ready" , pc_disable_not_ready , YesNo
+  Option     "Disable when there is no weapon"  , pc_disable_no_weapon , YesNo
 
 } // OptionMenu pc_Menu

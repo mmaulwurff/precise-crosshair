@@ -9,6 +9,7 @@ user bool pc_flip_x = false;
 
 user bool pc_disable_slot_1    = false;
 user bool pc_disable_not_ready = false;
+user bool pc_disable_no_weapon = true;
 
 // Precise External Interface //////////////////////////////////////////////////
 

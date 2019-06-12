@@ -30,25 +30,26 @@ class pc_Settings : pc_SettingsPack
   bool isFlipX() { checkInit(); return _flipX.value(); }
   bool isFlipY() { checkInit(); return _flipY.value(); }
 
-  bool isDisabledOnSlot1()    { checkInit(); return _disableOnSlot1.value();    }
+  bool isDisabledOnSlot1   () { checkInit(); return _disableOnSlot1   .value(); }
   bool isDisabledOnNotReady() { checkInit(); return _disableOnNotReady.value(); }
+  bool isDisabledOnNoWeapon() { checkInit(); return _disableNoWeapon  .value(); }
 
   // private: //////////////////////////////////////////////////////////////////
 
   private
   void checkInit()
   {
-    if (!_isInitialized)
-    {
-      clear();
+    if (_isInitialized) { return; }
 
-      push(_flipX             = new("pc_BoolSetting").init("pc_flip_x"            , _player));
-      push(_flipY             = new("pc_BoolSetting").init("pc_flip_y"            , _player));
-      push(_disableOnSlot1    = new("pc_BoolSetting").init("pc_disable_slot_1"    , _player));
-      push(_disableOnNotReady = new("pc_BoolSetting").init("pc_disable_not_ready" , _player));
+    clear();
 
-      _isInitialized = true;
-    }
+    push(_flipX             = new("pc_BoolSetting").init("pc_flip_x"            , _player));
+    push(_flipY             = new("pc_BoolSetting").init("pc_flip_y"            , _player));
+    push(_disableOnSlot1    = new("pc_BoolSetting").init("pc_disable_slot_1"    , _player));
+    push(_disableOnNotReady = new("pc_BoolSetting").init("pc_disable_not_ready" , _player));
+    push(_disableNoWeapon   = new("pc_BoolSetting").init("pc_disable_no_weapon" , _player));
+
+    _isInitialized = true;
   }
 
   // private: //////////////////////////////////////////////////////////////////
@@ -57,6 +58,7 @@ class pc_Settings : pc_SettingsPack
   private pc_BoolSetting _flipY;
   private pc_BoolSetting _disableOnSlot1;
   private pc_BoolSetting _disableOnNotReady;
+  private pc_BoolSetting _disableNoWeapon;
 
   private PlayerInfo     _player;
   private transient bool _isInitialized;
