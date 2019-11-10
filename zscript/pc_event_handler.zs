@@ -176,7 +176,6 @@ class pc_EventHandler : EventHandler
                       , DTA_KeepRatio    , true
                       , DTA_FillColor    , crossColor & 0xFFFFFF
                       , DTA_FlipX        , _settings.isFlipX()
-                      , DTA_FlipY        , _settings.isFlipY()
                       );
   }
 

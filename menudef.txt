@@ -33,7 +33,6 @@ OptionMenu pc_Menu
 
   StaticText ""
   Option     "Mirror horizontally" , pc_flip_x , YesNo
-  Option     "Mirror vertically"   , pc_flip_y , YesNo
 
   StaticText ""
   Option     "Disable on slot 1"                , pc_disable_slot_1    , YesNo
