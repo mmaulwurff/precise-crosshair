@@ -76,7 +76,6 @@ class pc_EventHandler : EventHandler
     }
     else
     {
-      console.printf("warning, cannot get render mode");
       _projection = _glProjection;
     }
 
