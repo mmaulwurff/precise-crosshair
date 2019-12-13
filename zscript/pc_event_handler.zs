@@ -131,16 +131,74 @@ class pc_EventHandler : EventHandler
     int width  = int(textureSize.x * size);
     int height = int(textureSize.y * size);
 
-    int crossColor;
+    bool hasHealth;
+    int  health, maxHealth;
+    [hasHealth, health, maxHealth] = getHealths(player);
+    int crossColor = makeCrosshairColor(hasHealth, health, maxHealth);
+
+    if(!_projection.IsInFront()) { return; } // should never happen for crosshair, though.
+
+    Screen.DrawTexture( _crosshairTexture
+                      , false
+                      , screenWidth / 2
+                      , drawPos.y
+                      , DTA_DestWidth    , width
+                      , DTA_DestHeight   , height
+                      , DTA_AlphaChannel , true
+                      , DTA_KeepRatio    , true
+                      , DTA_FillColor    , crossColor & 0xFFFFFF
+                      , DTA_FlipX        , _settings.isFlipX()
+                      , DTA_FlipY        , _settings.isFlipY()
+                      );
+  }
+
+  /**
+   * @returns noHealth flag, current health, max health.
+   */
+  private ui
+  bool, int, int getHealths(PlayerInfo player)
+  {
+    if (_settings.isTargetHealth())
+    {
+      let aimTarget = getAimTarget(player.mo);
+      if (aimTarget)
+      {
+        return true, aimTarget.health, aimTarget.GetSpawnHealth();
+      }
+      else
+      {
+        return false, 0, 0;
+      }
+    }
+
+    int health     = player.health;
+    int maxHealth  = getDefaultHealth(player);
+
+    return true, health, maxHealth;
+  }
+
+  private play
+  Actor getAimTarget(Actor a) const
+  {
+    return a.AimTarget();
+  }
+
+  private static ui
+  int makeCrosshairColor(bool hasHealth, int health, int maxHealth)
+  {
+    if (!hasHealth)
+    {
+      return crosshaircolor;
+    }
 
     if (crosshairhealth == 1)
     {
       // "Standard" crosshair health (green-red)
-      int health = scale(player.health, 100, getDefaultHealth(player));
+      int health = scale(health, 100, maxHealth);
 
       if (health >= 85)
       {
-        crossColor = 0x00ff00;
+        return 0x00ff00;
       }
       else
       {
@@ -159,13 +217,13 @@ class pc_EventHandler : EventHandler
           red   = (60 - health) * 255 / 30;
           green = 255;
         }
-        crossColor = (red<<16) | (green<<8);
+        return (red<<16) | (green<<8);
       }
     }
     else if (crosshairhealth == 2)
     {
       // "Enhanced" crosshair health (blue-green-yellow-red)
-      int health = clamp(scale(player.health, 100, getDefaultHealth(player)), 0, 200);
+      int health = clamp(scale(health, 100, maxHealth), 0, 200);
       double rr;
       double gg;
       double bb;
@@ -177,27 +235,10 @@ class pc_EventHandler : EventHandler
       int green = int(gg * 255);
       int blue  = int(bb * 255);
 
-      crossColor = (red<<16) | (green<<8) | blue;
-    }
-    else
-    {
-      crossColor = crosshaircolor;
+      return (red<<16) | (green<<8) | blue;
     }
 
-    if(!_projection.IsInFront()) { return; } // should never happen for crosshair, though.
-
-    Screen.DrawTexture( _crosshairTexture
-                      , false
-                      , screenWidth / 2
-                      , drawPos.y
-                      , DTA_DestWidth    , width
-                      , DTA_DestHeight   , height
-                      , DTA_AlphaChannel , true
-                      , DTA_KeepRatio    , true
-                      , DTA_FillColor    , crossColor & 0xFFFFFF
-                      , DTA_FlipX        , _settings.isFlipX()
-                      , DTA_FlipY        , _settings.isFlipY()
-                      );
+    return crosshaircolor;
   }
 
   private ui
