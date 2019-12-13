@@ -133,8 +133,9 @@ class pc_EventHandler : EventHandler
 
     int crossColor;
 
-    if (crosshairhealth)
+    if (crosshairhealth == 1)
     {
+      // "Standard" crosshair health (green-red)
       int health = scale(player.health, 100, getDefaultHealth(player));
 
       if (health >= 85)
@@ -160,6 +161,23 @@ class pc_EventHandler : EventHandler
         }
         crossColor = (red<<16) | (green<<8);
       }
+    }
+    else if (crosshairhealth == 2)
+    {
+      // "Enhanced" crosshair health (blue-green-yellow-red)
+      int health = clamp(scale(player.health, 100, getDefaultHealth(player)), 0, 200);
+      double rr;
+      double gg;
+      double bb;
+
+      double saturation = health < 150 ? 1.0 : 1.0 - (health - 150) / 100.0;
+
+      HSVtoRGB(rr, gg, bb, health * 1.2f, saturation, 1);
+      int red   = int(rr * 255);
+      int green = int(gg * 255);
+      int blue  = int(bb * 255);
+
+      crossColor = (red<<16) | (green<<8) | blue;
     }
     else
     {
@@ -336,6 +354,36 @@ class pc_EventHandler : EventHandler
     bool   isNo = (w == NULL) || (w.GetClassName() == "m8f_wm_Holstered");
 
     return isNo;
+  }
+
+  private static ui
+  void HSVtoRGB (out double r, out double g, out double b, double h, double s, double v)
+  {
+    int i;
+    double f, p, q, t;
+
+    if (s == 0)
+    { // achromatic (grey)
+      r = g = b = v;
+      return;
+    }
+
+    h /= 60;                                    // sector 0 to 5
+    i = int(floor(h));
+    f = h - i;                                  // factorial part of h
+    p = v * (1 - s);
+    q = v * (1 - s * f);
+    t = v * (1 - s * (1 - f));
+
+    switch (i)
+    {
+    case 0:     r = v; g = t; b = p; break;
+    case 1:     r = q; g = v; b = p; break;
+    case 2:     r = p; g = v; b = t; break;
+    case 3:     r = p; g = q; b = v; break;
+    case 4:     r = t; g = p; b = v; break;
+    default:    r = v; g = p; b = q; break;
+    }
   }
 
 // private: ////////////////////////////////////////////////////////////////////
