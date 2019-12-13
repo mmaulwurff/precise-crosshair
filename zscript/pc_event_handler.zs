@@ -19,7 +19,7 @@
 class pc_EventHandler : EventHandler
 {
 
-  // public: ///////////////////////////////////////////////////////////////////
+// public: // EventHandler /////////////////////////////////////////////////////
 
   override
   void WorldTick()
@@ -42,7 +42,7 @@ class pc_EventHandler : EventHandler
     drawCrosshair(player, event);
   }
 
-  // private: //////////////////////////////////////////////////////////////////
+// private: ////////////////////////////////////////////////////////////////////
 
   private
   void initialize()
@@ -86,15 +86,17 @@ class pc_EventHandler : EventHandler
   private
   void loadTarget(double angle, double pitch) const
   {
-    PlayerPawn a = players[consolePlayer].mo;
+    PlayerInfo p = players[consolePlayer];
+    PlayerPawn a = p.mo;
     pitch = a.AimTarget() ? a.BulletSlope(NULL, ALF_PORTALRESTRICT) : pitch;
 
     FLineTraceData data;
-    bool hit = a.LineTrace(angle, 4000.0, pitch, lFlags, a.AttackZOffset + a.height / 2, 0, 0, data);
+    double hitHeight = a.height / 2 + a.AttackZOffset * p.crouchFactor;
+    bool   hit       = a.LineTrace(angle, 4000.0, pitch, lFlags, hitHeight, 0, 0, data);
     if (hit) { _targetPos = data.hitlocation; }
   }
 
-  // private: //////////////////////////////////////////////////////////////////
+// private: ////////////////////////////////////////////////////////////////////
 
   private ui
   void drawCrosshair(PlayerInfo player, RenderEvent event)
@@ -269,7 +271,7 @@ class pc_EventHandler : EventHandler
     _externalY.SetFloat(y);
   }
 
-  // private: //////////////////////////////////////////////////////////////////
+// private: ////////////////////////////////////////////////////////////////////
 
   private ui static
   int scale(int value, int scaleMax, int valueMax)
@@ -336,7 +338,7 @@ class pc_EventHandler : EventHandler
     return isNo;
   }
 
-  // private: //////////////////////////////////////////////////////////////////
+// private: ////////////////////////////////////////////////////////////////////
 
   private Vector3          _targetPos;
 
@@ -355,7 +357,7 @@ class pc_EventHandler : EventHandler
 
   private pc_Settings      _settings;
 
-  // private: //////////////////////////////////////////////////////////////////
+// private: ////////////////////////////////////////////////////////////////////
 
   const lFlags = LAF_NOIMPACTDECAL | LAF_NORANDOMPUFFZ;
 
