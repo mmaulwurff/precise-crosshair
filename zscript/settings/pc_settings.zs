@@ -33,6 +33,8 @@ class pc_Settings : pc_SettingsPack
   bool isDisabledOnNotReady() { checkInit(); return _disableOnNotReady.value(); }
   bool isDisabledOnNoWeapon() { checkInit(); return _disableNoWeapon  .value(); }
 
+  bool isTargetHealth() { checkInit(); return _targetHealth.value(); }
+
   // private: //////////////////////////////////////////////////////////////////
 
   private
@@ -42,20 +44,28 @@ class pc_Settings : pc_SettingsPack
 
     clear();
 
-    push(_flipX             = new("pc_BoolSetting").init("pc_flip_x"            , _player));
-    push(_disableOnSlot1    = new("pc_BoolSetting").init("pc_disable_slot_1"    , _player));
-    push(_disableOnNotReady = new("pc_BoolSetting").init("pc_disable_not_ready" , _player));
-    push(_disableNoWeapon   = new("pc_BoolSetting").init("pc_disable_no_weapon" , _player));
+    push(_flipX             = newBoolSetting("pc_flip_x"           ));
+    push(_disableOnSlot1    = newBoolSetting("pc_disable_slot_1"   ));
+    push(_disableOnNotReady = newBoolSetting("pc_disable_not_ready"));
+    push(_disableNoWeapon   = newBoolSetting("pc_disable_no_weapon"));
+    push(_targetHealth      = newBoolSetting("pc_target_health"    ));
 
     _isInitialized = true;
   }
 
   // private: //////////////////////////////////////////////////////////////////
 
+  private
+  pc_BoolSetting newBoolSetting(String name)
+  {
+    return new("pc_BoolSetting").init(name, _player);
+  }
+
   private pc_BoolSetting _flipX;
   private pc_BoolSetting _disableOnSlot1;
   private pc_BoolSetting _disableOnNotReady;
   private pc_BoolSetting _disableNoWeapon;
+  private pc_BoolSetting _targetHealth;
 
   private PlayerInfo     _player;
   private transient bool _isInitialized;

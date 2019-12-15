@@ -19,7 +19,7 @@
 class pc_EventHandler : EventHandler
 {
 
-  // public: ///////////////////////////////////////////////////////////////////
+// public: // EventHandler /////////////////////////////////////////////////////
 
   override
   void WorldTick()
@@ -42,7 +42,7 @@ class pc_EventHandler : EventHandler
     drawCrosshair(player, event);
   }
 
-  // private: //////////////////////////////////////////////////////////////////
+// private: ////////////////////////////////////////////////////////////////////
 
   private
   void initialize()
@@ -53,6 +53,8 @@ class pc_EventHandler : EventHandler
     _swProjection  = new("pc_Le_SwScreen");
     _cvarRenderer  = Cvar.GetCvar("vid_rendermode", player);
     _settings      = new("pc_Settings").init(player);
+
+    _yPositionInterpolator = DynamicValueInterpolator.Create(Screen.GetHeight() / 2, 0.5, 1, 1000000);
 
     _isInitialized = true;
   }
@@ -85,15 +87,17 @@ class pc_EventHandler : EventHandler
   private
   void loadTarget(double angle, double pitch) const
   {
-    PlayerPawn a = players[consolePlayer].mo;
+    PlayerInfo p = players[consolePlayer];
+    PlayerPawn a = p.mo;
     pitch = a.AimTarget() ? a.BulletSlope(NULL, ALF_PORTALRESTRICT) : pitch;
 
     FLineTraceData data;
-    bool hit = a.LineTrace(angle, 4000.0, pitch, lFlags, a.AttackZOffset + a.height / 2, 0, 0, data);
-    if (hit) { _targetPos = data.hitlocation; }
+    double hitHeight = a.height / 2 + a.AttackZOffset * p.crouchFactor;
+    _hasTargetPos    = a.LineTrace(angle, 4000.0, pitch, lFlags, hitHeight, 0, 0, data);
+    if (_hasTargetPos) { _targetPos = data.hitlocation; }
   }
 
-  // private: //////////////////////////////////////////////////////////////////
+// private: ////////////////////////////////////////////////////////////////////
 
   private ui
   void drawCrosshair(PlayerInfo player, RenderEvent event)
@@ -128,15 +132,73 @@ class pc_EventHandler : EventHandler
     int width  = int(textureSize.x * size);
     int height = int(textureSize.y * size);
 
-    int crossColor;
+    bool hasHealth;
+    int  health, maxHealth;
+    [hasHealth, health, maxHealth] = getHealths(player);
+    int crossColor = makeCrosshairColor(hasHealth, health, maxHealth);
 
-    if (crosshairhealth)
+    _yPositionInterpolator.Update(int(drawPos.y));
+
+    Screen.DrawTexture( _crosshairTexture
+                      , false
+                      , screenWidth / 2
+                      , _yPositionInterpolator.GetValue()
+                      , DTA_DestWidth    , width
+                      , DTA_DestHeight   , height
+                      , DTA_AlphaChannel , true
+                      , DTA_KeepRatio    , true
+                      , DTA_FillColor    , crossColor & 0xFFFFFF
+                      , DTA_FlipX        , _settings.isFlipX()
+                      );
+  }
+
+  /**
+   * @returns noHealth flag, current health, max health.
+   */
+  private ui
+  bool, int, int getHealths(PlayerInfo player)
+  {
+    if (_settings.isTargetHealth())
     {
-      int health = scale(player.health, 100, getDefaultHealth(player));
+      let aimTarget = getAimTarget(player.mo);
+      if (aimTarget)
+      {
+        return true, aimTarget.health, aimTarget.GetSpawnHealth();
+      }
+      else
+      {
+        return false, 0, 0;
+      }
+    }
+
+    int health     = player.health;
+    int maxHealth  = getDefaultHealth(player);
+
+    return true, health, maxHealth;
+  }
+
+  private play
+  Actor getAimTarget(Actor a) const
+  {
+    return a.AimTarget();
+  }
+
+  private static ui
+  int makeCrosshairColor(bool hasHealth, int health, int maxHealth)
+  {
+    if (!hasHealth)
+    {
+      return crosshaircolor;
+    }
+
+    if (crosshairhealth == 1)
+    {
+      // "Standard" crosshair health (green-red)
+      int health = scale(health, 100, maxHealth);
 
       if (health >= 85)
       {
-        crossColor = 0x00ff00;
+        return 0x00ff00;
       }
       else
       {
@@ -155,32 +217,42 @@ class pc_EventHandler : EventHandler
           red   = (60 - health) * 255 / 30;
           green = 255;
         }
-        crossColor = (red<<16) | (green<<8);
+        return (red<<16) | (green<<8);
       }
     }
-    else
+    else if (crosshairhealth == 2)
     {
-      crossColor = crosshaircolor;
+      // "Enhanced" crosshair health (blue-green-yellow-red)
+      int health = clamp(scale(health, 100, maxHealth), 0, 200);
+      double rr;
+      double gg;
+      double bb;
+
+      double saturation = health < 150 ? 1.0 : 1.0 - (health - 150) / 100.0;
+
+      HSVtoRGB(rr, gg, bb, health * 1.2f, saturation, 1);
+      int red   = int(rr * 255);
+      int green = int(gg * 255);
+      int blue  = int(bb * 255);
+
+      return (red<<16) | (green<<8) | blue;
     }
 
-    if(!_projection.IsInFront()) { return; } // should never happen for crosshair, though.
-
-    Screen.DrawTexture( _crosshairTexture
-                      , false
-                      , screenWidth / 2
-                      , drawPos.y
-                      , DTA_DestWidth    , width
-                      , DTA_DestHeight   , height
-                      , DTA_AlphaChannel , true
-                      , DTA_KeepRatio    , true
-                      , DTA_FillColor    , crossColor & 0xFFFFFF
-                      , DTA_FlipX        , _settings.isFlipX()
-                      );
+    return crosshaircolor;
   }
 
   private ui
   Vector2 makeDrawPos(PlayerInfo player, RenderEvent event)
   {
+    if (!_hasTargetPos)
+    {
+      int x, y, width, height;
+      [x, y, width, height] = Screen.GetViewWindow();
+      int screenHeight      = Screen.GetHeight();
+      int statusBarHeight   = screenHeight - height - x;
+      return (Screen.GetWidth() / 2, (Screen.GetHeight() - statusBarHeight) / 2);
+    }
+
     _projection.CacheResolution();
     _projection.CacheFov(player.fov);
     _projection.OrientForRenderOverlay(event);
@@ -267,7 +339,7 @@ class pc_EventHandler : EventHandler
     _externalY.SetFloat(y);
   }
 
-  // private: //////////////////////////////////////////////////////////////////
+// private: ////////////////////////////////////////////////////////////////////
 
   private ui static
   int scale(int value, int scaleMax, int valueMax)
@@ -334,9 +406,40 @@ class pc_EventHandler : EventHandler
     return isNo;
   }
 
-  // private: //////////////////////////////////////////////////////////////////
+  private static ui
+  void HSVtoRGB (out double r, out double g, out double b, double h, double s, double v)
+  {
+    int i;
+    double f, p, q, t;
+
+    if (s == 0)
+    { // achromatic (grey)
+      r = g = b = v;
+      return;
+    }
+
+    h /= 60;                                    // sector 0 to 5
+    i = int(floor(h));
+    f = h - i;                                  // factorial part of h
+    p = v * (1 - s);
+    q = v * (1 - s * f);
+    t = v * (1 - s * (1 - f));
+
+    switch (i)
+    {
+    case 0:     r = v; g = t; b = p; break;
+    case 1:     r = q; g = v; b = p; break;
+    case 2:     r = p; g = v; b = t; break;
+    case 3:     r = p; g = q; b = v; break;
+    case 4:     r = t; g = p; b = v; break;
+    default:    r = v; g = p; b = q; break;
+    }
+  }
+
+// private: ////////////////////////////////////////////////////////////////////
 
   private Vector3          _targetPos;
+  private bool             _hasTargetPos;
 
   private ui int           _crosshairNum;
   private ui bool          _isCrossExisting;
@@ -353,7 +456,9 @@ class pc_EventHandler : EventHandler
 
   private pc_Settings      _settings;
 
-  // private: //////////////////////////////////////////////////////////////////
+  private DynamicValueInterpolator _yPositionInterpolator;
+
+// private: ////////////////////////////////////////////////////////////////////
 
   const lFlags = LAF_NOIMPACTDECAL | LAF_NORANDOMPUFFZ;
 

@@ -39,4 +39,7 @@ OptionMenu pc_Menu
   Option     "Disable when weapon is not ready" , pc_disable_not_ready , YesNo
   Option     "Disable when there is no weapon"  , pc_disable_no_weapon , YesNo
 
+  StaticText ""
+  Option     "Show target color instead of player", pc_target_health, YesNo
+
 } // OptionMenu pc_Menu
