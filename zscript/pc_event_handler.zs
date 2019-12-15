@@ -94,8 +94,8 @@ class pc_EventHandler : EventHandler
 
     FLineTraceData data;
     double hitHeight = a.height / 2 + a.AttackZOffset * p.crouchFactor;
-    bool   hit       = a.LineTrace(angle, 4000.0, pitch, lFlags, hitHeight, 0, 0, data);
-    if (hit) { _targetPos = data.hitlocation; }
+    _hasTargetPos    = a.LineTrace(angle, 4000.0, pitch, lFlags, hitHeight, 0, 0, data);
+    if (_hasTargetPos) { _targetPos = data.hitlocation; }
   }
 
 // private: ////////////////////////////////////////////////////////////////////
@@ -137,8 +137,6 @@ class pc_EventHandler : EventHandler
     int  health, maxHealth;
     [hasHealth, health, maxHealth] = getHealths(player);
     int crossColor = makeCrosshairColor(hasHealth, health, maxHealth);
-
-    if(!_projection.IsInFront()) { return; } // should never happen for crosshair, though.
 
     _yPositionInterpolator.Update(int(drawPos.y));
 
@@ -248,6 +246,15 @@ class pc_EventHandler : EventHandler
   private ui
   Vector2 makeDrawPos(PlayerInfo player, RenderEvent event)
   {
+    if (!_hasTargetPos)
+    {
+      int x, y, width, height;
+      [x, y, width, height] = Screen.GetViewWindow();
+      int screenHeight      = Screen.GetHeight();
+      int statusBarHeight   = screenHeight - height - x;
+      return (Screen.GetWidth() / 2, (Screen.GetHeight() - statusBarHeight) / 2);
+    }
+
     _projection.CacheResolution();
     _projection.CacheFov(player.fov);
     _projection.OrientForRenderOverlay(event);
@@ -434,6 +441,7 @@ class pc_EventHandler : EventHandler
 // private: ////////////////////////////////////////////////////////////////////
 
   private Vector3          _targetPos;
+  private bool             _hasTargetPos;
 
   private ui int           _crosshairNum;
   private ui bool          _isCrossExisting;

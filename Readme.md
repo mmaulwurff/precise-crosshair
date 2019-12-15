@@ -39,4 +39,5 @@ Required GZDoom version: 4.1.3 or higher.
 * Frax Boomer for an idea;
 * Someone64 for feature suggestions;
 * Agitatio for bug reporting;
-* ShockwaveS08 for feature suggestions.
+* ShockwaveS08 for feature suggestions;
+* vapidscum for bug reporting.
