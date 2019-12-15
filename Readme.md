@@ -1,7 +1,9 @@
 # Precise Crosshair
 
 An addon (minimod) for GZDoom that makes a crosshair point to where you
-actually shoot instead of the center of the screen.
+actually shoot* instead of the center of the screen.
+
+*If your weapons shoots straight and not from an angle.
 
 ## How to use
 
@@ -30,7 +32,7 @@ Required GZDoom version: 4.1.3 or higher.
 
 ## Credits
 
-* Color code is ripped from GZDoom;
+* Color calculation and crosshair code is ripped from GZDoom;
 * Screen Positioning is done via [LibEye](https://forum.zdoom.org/viewtopic.php?f=105&t=64566#p1102157) by KeksDose.
 
 ## Thanks to
