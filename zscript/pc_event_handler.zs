@@ -54,6 +54,8 @@ class pc_EventHandler : EventHandler
     _cvarRenderer  = Cvar.GetCvar("vid_rendermode", player);
     _settings      = new("pc_Settings").init(player);
 
+    _yPositionInterpolator = DynamicValueInterpolator.Create(Screen.GetHeight() / 2, 0.5, 1, 1000000);
+
     _isInitialized = true;
   }
 
@@ -138,10 +140,12 @@ class pc_EventHandler : EventHandler
 
     if(!_projection.IsInFront()) { return; } // should never happen for crosshair, though.
 
+    _yPositionInterpolator.Update(int(drawPos.y));
+
     Screen.DrawTexture( _crosshairTexture
                       , false
                       , screenWidth / 2
-                      , drawPos.y
+                      , _yPositionInterpolator.GetValue()
                       , DTA_DestWidth    , width
                       , DTA_DestHeight   , height
                       , DTA_AlphaChannel , true
@@ -445,6 +449,8 @@ class pc_EventHandler : EventHandler
   private pc_Le_SwScreen   _swProjection;
 
   private pc_Settings      _settings;
+
+  private DynamicValueInterpolator _yPositionInterpolator;
 
 // private: ////////////////////////////////////////////////////////////////////
 
