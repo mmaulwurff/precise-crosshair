@@ -1,3 +1,26 @@
 [enu default]
 
+// Option menus ////////////////////////////////////////////////////////////////
+
+PC_TITLE  = "Precise Crosshair";
+
+PC_ENGINE = "Engine Crosshair Options";
+PC_OFF    = "This must be OFF:";
+PC_NONE   = "This must be not None:";
+PC_OTHER  = "Other crosshair options also apply to Precise Crosshair:";
+
+PC_OPTIONS = "Precise Crosshair Options";
+PC_ENABLE  = "Enabled";
+
+PC_MIRROR_H = "Mirror horizontally";
+PC_MIRROR_V = "Mirror vertically";
+PC_SLOT_1   = "Disable on slot 1";
+PC_NOT_READY = "Disable when weapon is not ready";
+PC_NO_WEAPON = "Disable when there is no weapon";
+PC_TARGET_COLOR = "Show target color instead of player";
+
+// Crosshair names /////////////////////////////////////////////////////////////
+
 PC_PIXEL = "Pixel";
+PC_BIG   = "Precise Big";
+PC_SMALL = "Precise Small";

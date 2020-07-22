@@ -2,7 +2,7 @@
 
 AddOptionMenu OptionsMenu
 {
-  SubMenu    "Precise Crosshair", pc_Menu
+  SubMenu "$PC_TITLE", pc_Menu
 }
 
 // Menus ///////////////////////////////////////////////////////////////////////
@@ -10,36 +10,37 @@ AddOptionMenu OptionsMenu
 OptionMenu pc_Menu
 {
 
-  Title      "Precise Crosshair"
+  Title      "$PC_TITLE"
 
-  StaticText "GZDoom Crosshair Options", 1
+  StaticText "$PC_ENGINE"          , 1
+
   StaticText ""
-  StaticText "This must be OFF:"
+  StaticText "$PC_OFF"
   Option     "$HUDMNU_CROSSHAIRON" , crosshairon, OnOff
 
   StaticText ""
-  StaticText "This must be not None:"
+  StaticText "$PC_NONE"
   Option     "$HUDMNU_CROSSHAIR"   , crosshair, Crosshairs
 
   StaticText ""
-  StaticText "Other crosshair options apply to Precise Crosshair too:"
-  Submenu    "$OPTMNU_HUD", HUDOptions
+  StaticText "$PC_OTHER"
+  Submenu    "$OPTMNU_HUD"         , HUDOptions
 
   StaticText ""
-  StaticText "Precise Crosshair Options", 1
+  StaticText "$PC_OPTIONS"         , 1
   StaticText ""
-  Option     "Enable", pc_enable, YesNo
+  Option     "$PC_ENABLE"          , pc_enable            , YesNo
 
   StaticText ""
-  Option     "Mirror horizontally" , pc_flip_x , YesNo
-  Option     "Mirror vertically"   , pc_flip_y , YesNo
+  Option     "$PC_MIRROR_H"        , pc_flip_x            , YesNo
+  Option     "$PC_MIRROR_V"        , pc_flip_y            , YesNo
 
   StaticText ""
-  Option     "Disable on slot 1"                , pc_disable_slot_1    , YesNo
-  Option     "Disable when weapon is not ready" , pc_disable_not_ready , YesNo
-  Option     "Disable when there is no weapon"  , pc_disable_no_weapon , YesNo
+  Option     "$PC_SLOT_1"          , pc_disable_slot_1    , YesNo
+  Option     "$PC_NOT_READY"       , pc_disable_not_ready , YesNo
+  Option     "$PC_NO_WEAPON"       , pc_disable_no_weapon , YesNo
 
   StaticText ""
-  Option     "Show target color instead of player", pc_target_health, YesNo
+  Option     "$PC_TARGET_COLOR"    , pc_target_health     , YesNo
 
 } // OptionMenu pc_Menu
