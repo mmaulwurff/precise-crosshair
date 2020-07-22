@@ -2,7 +2,6 @@
 
 AddOptionMenu OptionsMenu
 {
-  StaticText ""
   SubMenu    "Precise Crosshair", pc_Menu
 }
 
