@@ -392,9 +392,13 @@ class pc_EventHandler : EventHandler
   private static
   bool isWeaponReady(PlayerInfo player)
   {
-    bool isReady = (player.WeaponState & WF_WEAPONREADY)
-      || (player.WeaponState & WF_WEAPONREADYALT)
-      || player.attackdown;
+    bool isReady
+       = player.WeaponState & WF_WEAPONREADY
+      || player.WeaponState & WF_WEAPONREADYALT
+      || player.WeaponState & WF_WEAPONZOOMOK
+      || player.cmd.buttons & BT_ATTACK
+      || player.cmd.buttons & BT_ALTATTACK
+       ;
 
     return isReady;
   }
