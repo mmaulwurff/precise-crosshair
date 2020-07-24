@@ -1,5 +1,7 @@
 # Precise Crosshair
 
+<img src="https://img.shields.io/github/downloads/mmaulwurff/precise-crosshair/total" />
+
 An addon (minimod) for GZDoom that makes a crosshair point to where you
 actually shoot* instead of the center of the screen.
 
@@ -42,4 +44,5 @@ Required GZDoom version: 4.1.3 or higher.
 * Someone64 for feature suggestions;
 * Agitatio for bug reporting;
 * ShockwaveS08 for feature suggestions;
-* vapidscum for bug reporting.
+* vapidscum for bug reporting;
+* Tapwave for bug reporting.
