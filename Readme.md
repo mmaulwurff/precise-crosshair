@@ -1,3 +1,5 @@
+Project moved to https://github.com/mmaulwurff/doom-toolbox/
+
 # Precise Crosshair
 
 <img src="https://img.shields.io/github/downloads/mmaulwurff/precise-crosshair/total" />
